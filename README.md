@@ -53,6 +53,8 @@ To run the simulator:
 
 The code includes intrinsic comments explaining the purpose of implemented modules, variables, and data structures.
 
+Please note, the 'GUI' is a wrapper for the actual searching program. This is done by design for people to change the UI or adapt the code into different applications. The GUI has no function except for clickable functions. 
+
 ## Files Included
 
 - `standard_algorithms_simulator.py`: Python script containing the implementation of the Standard Algorithms Simulator.
