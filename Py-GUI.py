@@ -1,132 +1,116 @@
-import time  # Importing the time module for time-related functions
-import tkinter as tk  # Importing the tkinter module for GUI
-from tkinter import messagebox  # Importing messagebox module from tkinter for displaying messages
-from colorama import init, Fore, Style  # Importing colorama module for colored text
+import time  # Import the time module for adding delays
+import tkinter as tk  # Import the tkinter module for GUI
+from tkinter import messagebox  # Import the messagebox module from tkinter
 
-# Initialize colorama for cross-platform ANSI color support
-init(autoreset=True)
+simarray1 = [42, 32, 23, 12, 19, 54]  # Define a list of integers
 
-# Global variable to hold the array
-simarray1 = [42, 32, 23, 12, 19, 54]
+root = tk.Tk()  # Create a tkinter root window
+root.title("Standard Algorithms Simulator")  # Set the title of the root window
 
-# Create Tkinter window
-root = tk.Tk()
-
-# Set the title of the Tkinter window
-root.title("Standard Algorithms Simulator")
-
-# Function to convert an array into a string for printing
 def print_array(arr):
-    return "[" + " ".join(map(str, arr)) + "]"
+    return "[" + " ".join(map(str, arr)) + "]"  # Convert the array to a string representation
 
-# Function to perform bubble sort algorithm
 def bubble_sort(arr):
-    n = len(arr)
-    for i in range(n):
-        for j in range(0, n - i - 1):
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]  # Swap elements if they are in the wrong order
-                array_label.config(text=print_array(arr))  # Update array_label in GUI
+    n = len(arr)  # Get the length of the array
+    for i in range(n):  # Iterate over the array
+        is_sorted = True  # Flag to check if the array is already sorted
+        for j in range(0, n - i - 1):  # Iterate over the unsorted part of the array
+            if arr[j] > arr[j + 1]:  # If the current element is greater than the next element
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]  # Swap the elements
+                is_sorted = False  # Set the flag to False
+                array_label.config(text=print_array(arr))  # Update the label with the sorted array
                 root.update()  # Update the GUI
-                time.sleep(1)  # Pause for 1 second
-
-# Function to perform binary search algorithm
-def binary_search(arr, x):
-    low = 0
-    high = len(arr) - 1
-    while low <= high:
-        mid = (low + high) // 2
-        if arr[mid] == x:
-            return mid  # Return the index if the element is found
-        elif arr[mid] < x:
-            low = mid + 1  # Continue searching in the right half
-        else:
-            high = mid - 1  # Continue searching in the left half
-    return -1  # Return -1 if the element is not found
-
-# Function to perform bubble sort and display the sorted array in the GUI
-def perform_bubble_sort():
-    bubble_sorted_array = simarray1.copy()
-    bubble_sort(bubble_sorted_array)
-    sorted_array_label.config(text=print_array(bubble_sorted_array))
-
-# Function to perform binary search and display the search result in a message box
-def perform_binary_search():
-    search_value = int(search_entry.get())
-    bubble_sorted_array = sorted(simarray1)
-    index = binary_search(bubble_sorted_array, search_value)
-    if index != -1:
-        messagebox.showinfo("Binary Search Result", f"Value {search_value} found at index {index}")
-    else:
-        messagebox.showwarning("Binary Search Result", f"Value {search_value} not found in the array")
-
-# Function for bubble sort in command-line interface (CLI)
-def cli_bubble_sort():
-    bubble_sorted_array = simarray1.copy()
-    bubble_sort(bubble_sorted_array)
-    print("\nArray sorted using Bubble Sort:", bubble_sorted_array)
-
-# Function for binary search in command-line interface (CLI)
-def cli_binary_search():
-    search_value = int(input("Enter the value to search for: "))
-    bubble_sorted_array = sorted(simarray1)
-    index = binary_search(bubble_sorted_array, search_value)
-    if index != -1:
-        print(Fore.GREEN + f"Value {search_value} found at index {index}")
-    else:
-        print(Fore.RED + f"Value {search_value} not found in the array")
-
-# GUI Elements
-array_label = tk.Label(root, text=print_array(simarray1))  # Label to display the array in the GUI
-array_label.pack()  # Pack the array label into the window
-
-bubble_sort_button = tk.Button(root, text="Bubble Sort", command=perform_bubble_sort)  # Button to trigger bubble sort
-bubble_sort_button.pack()  # Pack the bubble sort button into the window
-
-sorted_array_label = tk.Label(root, text="")  # Label to display the sorted array in the GUI
-sorted_array_label.pack()  # Pack the sorted array label into the window
-
-search_frame = tk.Frame(root)  # Frame to contain search-related elements
-search_frame.pack()  # Pack the search frame into the window
-
-search_label = tk.Label(search_frame, text="Enter value to search:")  # Label for the search entry
-search_label.pack(side="left")  # Pack the search label into the search frame
-
-search_entry = tk.Entry(search_frame)  # Entry widget to enter the search value
-search_entry.pack(side="left")  # Pack the search entry into the search frame
-
-binary_search_button = tk.Button(root, text="Binary Search", command=perform_binary_search)  # Button to trigger binary search
-binary_search_button.pack()  # Pack the binary search button into the window
-
-exit_button = tk.Button(root, text="Exit", command=root.destroy)  # Button to exit the program
-exit_button.pack()  # Pack the exit button into the window
-
-# Main function for command-line interface (CLI)
-def main():
-    print("Welcome to Standard Algorithms Simulator")
-    while True:
-        print("\nMain Menu:")
-        print("1. Bubble Sort")
-        print("2. Binary Search")
-        print("3. Exit")
-        choice = input("Enter your choice: ")
-
-        if choice == "1":
-            print("\nBubble Sort:")
-            cli_bubble_sort()
-
-        elif choice == "2":
-            print("\nBinary Search:")
-            cli_binary_search()
-
-        elif choice == "3":
-            print("Exiting the program. Goodbye!")
+                time.sleep(0.5)  # Add a delay to visualize the sorting process
+        if is_sorted:  # If the array is already sorted, break the loop
             break
+    return arr  # Return the sorted array
 
-        else:
-            print("Invalid choice. Please enter a valid option.")
+def binary_search(arr, x, low, high):
+    while low <= high:  # Perform binary search until the low index is less than or equal to the high index
+        mid = (low + high) // 2  # Calculate the middle index
+        if arr[mid] == x:  # If the middle element is equal to the search value
+            return mid  # Return the index of the middle element
+        elif arr[mid] < x:  # If the middle element is less than the search value
+            low = mid + 1  # Update the low index to search in the right half of the array
+        else:  # If the middle element is greater than the search value
+            high = mid - 1  # Update the high index to search in the left half of the array
+    return -1  # Return -1 if the search value is not found in the array
+
+def perform_bubble_sort():
+    bubble_sort(simarray1)  # Call the bubble_sort function to sort the array
+    sorted_array_label.config(text=print_array(simarray1))  # Update the label with the sorted array
+
+def perform_binary_search():
+    if not sorted_array_label.cget("text"):  # If the sorted array label is empty
+        messagebox.showerror("Error", "Please run Bubble Sort first to sort the array.")  # Show an error message
+        return
+
+    search_value = search_entry.get().strip()  # Get the search value from the entry widget and remove leading/trailing spaces
+    if not search_value:  # If the search value is empty
+        messagebox.showerror("Error", "Please enter a value to search.")  # Show an error message
+        return
+
+    try:
+        search_value = int(search_value)  # Convert the search value to an integer
+    except ValueError:  # If the search value is not a valid integer
+        messagebox.showerror("Error", "Please enter a valid integer.")  # Show an error message
+        return
+
+    index = binary_search(simarray1, search_value, 0, len(simarray1) - 1)  # Call the binary_search function to search for the value
+    if index != -1:  # If the value is found in the array
+        messagebox.showinfo("Binary Search Result", f"Value {search_value} found at index {index}")  # Show an info message
+    else:  # If the value is not found in the array
+        messagebox.showwarning("Binary Search Result", f"Value {search_value} not found in the array")  # Show a warning message
+
+def show_main_screen():
+    homescreen_frame.pack_forget()  # Hide the homescreen frame
+    main_frame.pack()  # Show the main frame
+
+def show_homescreen():
+    main_frame.pack_forget()  # Hide the main frame
+    homescreen_frame.pack()  # Show the homescreen frame
+
+homescreen_frame = tk.Frame(root)  # Create a frame for the homescreen
+homescreen_frame.pack()  # Pack the homescreen frame
+
+homescreen_label = tk.Label(homescreen_frame, text="Welcome to Standard Algorithms Simulator")  # Create a label for the homescreen
+homescreen_label.pack()  # Pack the homescreen label
+
+begin_button = tk.Button(homescreen_frame, text="Begin", command=show_main_screen)  # Create a button to begin the simulation
+begin_button.pack()  # Pack the begin button
+
+main_frame = tk.Frame(root)  # Create a frame for the main screen
+
+back_button = tk.Button(main_frame, text="Back", command=show_homescreen)  # Create a button to go back to the homescreen
+back_button.pack()  # Pack the back button
+
+array_label = tk.Label(main_frame, text=print_array(simarray1))  # Create a label to display the array
+array_label.pack()  # Pack the array label
+
+bubble_sort_button = tk.Button(main_frame, text="Bubble Sort", command=perform_bubble_sort)  # Create a button to perform bubble sort
+bubble_sort_button.pack()  # Pack the bubble sort button
+
+sorted_array_label = tk.Label(main_frame, text="")  # Create a label to display the sorted array
+sorted_array_label.pack()  # Pack the sorted array label
+
+search_frame = tk.Frame(main_frame)  # Create a frame for the search functionality
+search_frame.pack()  # Pack the search frame
+
+search_label = tk.Label(search_frame, text="Enter value to search:")  # Create a label for the search entry
+search_label.pack(side="left")  # Pack the search label to the left
+
+search_entry = tk.Entry(search_frame)  # Create an entry widget for the search value
+search_entry.pack(side="left")  # Pack the search entry to the left
+
+binary_search_button = tk.Button(main_frame, text="Binary Search", command=perform_binary_search)  # Create a button to perform binary search
+binary_search_button.pack()  # Pack the binary search button
+
+exit_button = tk.Button(main_frame, text="Exit", command=root.destroy)  # Create a button to exit the program
+exit_button.pack()  # Pack the exit button
+
+def main():
+    show_homescreen()  # Show the homescreen
+    root.mainloop()  # Start the tkinter event loop
 
 if __name__ == "__main__":
-    main()
-
-root.mainloop()  # Start the Tkinter event loop
+    main()  # Call the main function to start the program
