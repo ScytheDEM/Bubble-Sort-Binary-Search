@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 import time  # Import the time module for adding delays
 import tkinter as tk  # Import the tkinter module for GUI
 from tkinter import messagebox  # Import the messagebox module from tkinter
+# stuff above is needed for the import of data to the computer
 
 simarray1 = [42, 32, 23, 12, 19, 54]  # Define a list of integers
 
@@ -11,10 +13,10 @@ def print_array(arr):
     return "[" + " ".join(map(str, arr)) + "]"  # Convert the array to a string representation
 
 def bubble_sort(arr):
-    n = len(arr)  # Get the length of the array
-    for i in range(n):  # Iterate over the array
+    n = len(arr)  # Get the length of the array (n represents the length of the array)
+    for i in range(n):  # Iterate over the array (i represents as the counter for the outerloop that iterates through the array mukltiple times to sort the array)
         is_sorted = True  # Flag to check if the array is already sorted
-        for j in range(0, n - i - 1):  # Iterate over the unsorted part of the array
+        for j in range(0, n - i - 1):  # Iterate over the unsorted part of the array (j serves as a counter for the inner loop which is the sorting a position of the array in each pass as it slowly shrinks as less needs to be sorted. )
             if arr[j] > arr[j + 1]:  # If the current element is greater than the next element
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]  # Swap the elements
                 is_sorted = False  # Set the flag to False
@@ -61,6 +63,8 @@ def perform_binary_search():
         messagebox.showinfo("Binary Search Result", f"Value {search_value} found at index {index}")  # Show an info message
     else:  # If the value is not found in the array
         messagebox.showwarning("Binary Search Result", f"Value {search_value} not found in the array")  # Show a warning message
+        # im so proud of the animations within the code and the sorting process. 
+        # NOTE SOME OF THE BUTTONS MIGHT BE A BIT LAGGY, BLAME PYTHON NOT ME, LIVE LAUGH LOVE APPLE SILICON!!!!!!
 
 def show_main_screen():
     homescreen_frame.pack_forget()  # Hide the homescreen frame
@@ -69,6 +73,9 @@ def show_main_screen():
 def show_homescreen():
     main_frame.pack_forget()  # Hide the main frame
     homescreen_frame.pack()  # Show the homescreen frame
+# Below is the code for the GUI, which includes the homescreen, main screen, and the functionality to perform bubble sort and binary search on an array. The GUI is created using the tkinter library in Python. 
+    # the gui is completly seperate and doesn't need to be included for the code above to work, a layer of CMI code might be needed, can be found on the added page in the github
+
 
 homescreen_frame = tk.Frame(root)  # Create a frame for the homescreen
 homescreen_frame.pack()  # Pack the homescreen frame
